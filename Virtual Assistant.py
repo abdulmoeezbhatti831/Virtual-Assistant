@@ -67,31 +67,31 @@ def user_command():
 
 
 if __name__ == "__main__":
-    welcome()
+    # welcome()
 
-    print("""What can I do for you?
-    → Open Camera
-    → Open Google
-    → Open YouTube
-    → Google Search
-    → YouTube Search
-    → Open Website with URL
-    → Current Date and Time
-    → Wikipedia Search
-    → Play music 
-    → Whatsapp msg
-    → Just Open Whatsapp
-    → Send Email
-    → Chat Bot
-    → CMD Runner
-    → Write a note
-    → Folder or File Control
-    → Some Exciting Programs (Ever I Create, Learn & Have! By the Coder!)
-    → Say 'exit program' to close or stop""")
+    # print("""What can I do for you?
+    # → Open Camera
+    # → Open Google
+    # → Open YouTube
+    # → Google Search
+    # → YouTube Search
+    # → Open Website with URL
+    # → Current Date and Time
+    # → Wikipedia Search
+    # → Play music 
+    # → Whatsapp msg
+    # → Just Open Whatsapp
+    # → Send Email
+    # → Chat Bot
+    # → CMD Runner
+    # → Write a note
+    # → Folder or File Control
+    # → Some Exciting Programs (Ever I Create, Learn & Have! By the Coder!)
+    # → Say 'exit program' to close or stop""")
 
-    time.sleep(5)
-    speak("Press enter, To EXPLORE me further!")
-    input()
+    # time.sleep(5)
+    # speak("Press enter, To EXPLORE me further!")
+    # input()
         
         
     while True:
@@ -291,11 +291,12 @@ if __name__ == "__main__":
                 webbrowser.open("https://www.chatgpt.com")
                 
             elif "control" in query and any(aciton in query for aciton in ["file", "folder"]):
-                speak("Let's Control your PC from here! Tell me what to do to?")
-                print(Fore.LIGHTGREEN_EX + Style.BRIGHT + "↪ Create\t↪ Delete\t↪ Move\t↪ Rename\t↪ Copy\t↪ Compress\t↪ List")
+                speak("Let's Control your PC from here! Tell me what to do?")
+                print(Fore.LIGHTYELLOW_EX + "↪ Create  ↪ Delete  ↪ Move  ↪ Rename  ↪ Copy  ↪ Compress  ↪ List")
                 
                 OG_Path = os.getcwd()
                 
+                speak("Make sure to set the path First!")
                 Path = input(Style.BRIGHT + Fore.GREEN + "Set the Path where to perform the action: " + Style.RESET_ALL)
                 if os.path.exists(Path):
                     speak("PATH EXIST!! Access Granted!")
@@ -303,78 +304,84 @@ if __name__ == "__main__":
                     os.chdir(Path)
                     
                     while True:
-                        command = input(Style.BRIGHT + Fore.LIGHTGREEN_EX + "\nSo, tell me -> " + Style.RESET_ALL).lower()
+                        command = input(Fore.YELLOW + "\nSo, tell me what to do -> " + Style.RESET_ALL).lower()
                         
-                        if command == "list":
-                            for root, dir, files in os.walk(Path):
-                                if files == []:
-                                    print(Back.LIGHTBLUE_EX + Fore.WHITE + root)
-                                for file in files:
-                                    print(Back.LIGHTBLUE_EX + Fore.WHITE + os.path.join(root, file))
-                            speak("Task done!")
-                            print(Fore.GREEN + "✅ Task Done!")
-                            
-                        elif command == "create":
-                            speak("This can also create folder in folder! Just give correct info!")
-                            create = input(Fore.LIGHTCYAN_EX + "Folder or File or if sub-folder (Folder\\sub-folder\\File): " + Style.RESET_ALL)
-                            if "\\" in create:
-                                os.makedirs(create)
-                            elif "." in create:
-                                open(create, "w")
-                            else:
-                                os.mkdir(create)
-                            speak("Task done!")
-                            print(Fore.GREEN + "✅ Task Done!")
-                                
-                        elif command == "delete":
-                            speak("Make sure to give right info or it may delete some important stuff!")
-                            delete = input(Fore.LIGHTCYAN_EX + "Folder or File or if sub-folder (Folder\\sub-folder\\File): " + Style.RESET_ALL)
-                            if "." in delete:
-                                os.remove(delete)
-                            else:
-                                shutil.rmtree(delete)
-                            speak("Task done!")
-                            print(Fore.GREEN + "✅ Task Done!")
-                                
-                        elif command == "move":
-                            speak("Make sure to give right info or it might moved some important stuff!")
-                            move = input(Fore.LIGHTCYAN_EX + "Folder or File or if sub-folder (Folder\\sub-folder\\File): " + Style.RESET_ALL)
-                            shutil.move(move, input(Fore.LIGHTCYAN_EX + "Destination with full path (C:\\): " + Style.RESET_ALL) + "\\" + move.split("\\")[-1])
-                            speak("Task done!")
-                            print(Fore.GREEN + "✅ Task Done!")
-                            
-                        elif command == "rename":
-                            speak("Don't like the current name. It's okay, now rename it!")
-                            rename = input(Fore.LIGHTCYAN_EX + "Folder or File or if sub-folder (Folder\\sub-folder\\File): " + Style.RESET_ALL)
-                            os.rename(rename, input(Fore.YELLOW + "New name: " + Style.RESET_ALL))
-                            speak("Task done!")
-                            print(Fore.GREEN + "✅ Task Done!")
-                            
-                        elif command == "copy":
-                            speak("Just make sure don't you put the copy file into original file path!")
-                            copy = input(Fore.LIGHTCYAN_EX + "Folder or File or if sub-folder (Folder\\sub-folder\\File): " + Style.RESET_ALL)
-                            if "." in copy:
-                                shutil.copy(copy, input(Fore.LIGHTCYAN_EX + "Destination with full path (C:\\): " + Style.RESET_ALL) + "\\" + copy.split("\\")[-1])
-                            else:
-                                shutil.copytree(copy, input(Fore.LIGHTCYAN_EX + "Destination with full path (C:\\): " + Style.RESET_ALL) + "\\" + copy.split("\\")[-1])
-                            speak("Task done!")
-                            print(Fore.GREEN + "✅ Task Done!")
-                                
-                        elif command == "compress":
-                            speak("That's a good idea to compress the big stuff! Make sure it couldn't be performed on files")
-                            compress = input(Fore.LIGHTCYAN_EX + "Folder or if sub-folder (Folder\\sub-folder): " + Style.RESET_ALL)
-                            if "." in compress:
-                                print(Fore.RED + "\n❌ Operation could not be Done!")
-                            else:
-                                shutil.make_archive(compress, "zip", compress)
+                        try:
+                            if command == "list":
+                                for root, dir, files in os.walk(Path):
+                                    if files == []:
+                                        print(Back.LIGHTBLUE_EX + Style.BRIGHT + root)
+                                    for file in files:
+                                        print(Back.LIGHTBLUE_EX + Style.BRIGHT + os.path.join(root, file))
                                 speak("Task done!")
                                 print(Fore.GREEN + "✅ Task Done!")
+                                
+                            elif command == "create":
+                                speak("This can also create folder in folder! Just give correct info!")
+                                create = input(Fore.LIGHTCYAN_EX + "Folder or File or if sub-folder (Folder\\sub-folder\\File): " + Style.RESET_ALL)
+                                if "\\" in create:
+                                    os.makedirs(create)
+                                elif "." in create:
+                                    open(create, "w")
+                                else:
+                                    os.mkdir(create)
+                                speak("Task done!")
+                                print(Fore.GREEN + "✅ Task Done!")
+                                    
+                            elif command == "delete":
+                                speak("Make sure to give right info, or it may delete some important stuff!")
+                                delete = input(Fore.LIGHTCYAN_EX + "Folder or File or if sub-folder (Folder\\sub-folder\\File): " + Style.RESET_ALL)
+                                if "." in delete:
+                                    os.remove(delete)
+                                else:
+                                    shutil.rmtree(delete)
+                                speak("Task done!")
+                                print(Fore.GREEN + "✅ Task Done!")
+                                    
+                            elif command == "move":
+                                speak("Make sure to give right info or it might moved some important stuff!")
+                                move = input(Fore.LIGHTCYAN_EX + "Folder or File or if sub-folder (Folder\\sub-folder\\File): " + Style.RESET_ALL)
+                                shutil.move(move, input(Fore.LIGHTCYAN_EX + "Destination with full path (C:\\): " + Style.RESET_ALL) + "\\" + move.split("\\")[-1])
+                                speak("Task done!")
+                                print(Fore.GREEN + "✅ Task Done!")
+                                
+                            elif command == "rename":
+                                speak("Don't like the current name. It's okay, now rename it!")
+                                rename = input(Fore.LIGHTCYAN_EX + "Folder or File or if sub-folder (Folder\\sub-folder\\File): " + Style.RESET_ALL)
+                                os.rename(rename, input(Fore.LIGHTCYAN_EX + "New name: " + Style.RESET_ALL))
+                                speak("Task done!")
+                                print(Fore.GREEN + "✅ Task Done!")
+                                
+                            elif command == "copy":
+                                speak("Just make sure don't you put the copy file into original file path!")
+                                copy = input(Fore.LIGHTCYAN_EX + "Folder or File or if sub-folder (Folder\\sub-folder\\File): " + Style.RESET_ALL)
+                                if "." in copy:
+                                    shutil.copy(copy, input(Fore.LIGHTCYAN_EX + "Destination with full path (C:\\): " + Style.RESET_ALL) + "\\" + "(Copy) " + (copy.split("\\")[-1] if True else copy))
+                                else:
+                                    shutil.copytree(copy, input(Fore.LIGHTCYAN_EX + "Destination with full path (C:\\): " + Style.RESET_ALL) + "\\" + "(Copy) " + (copy.split("\\")[-1] if True else copy))
+                                speak("Task done!")
+                                print(Fore.GREEN + "✅ Task Done!")
+                                    
+                            elif command == "compress":
+                                speak("That's a good idea to compress the big stuff! Make sure it couldn't be performed on files")
+                                compress = input(Fore.LIGHTCYAN_EX + "Folder or if sub-folder (Folder\\sub-folder): " + Style.RESET_ALL)
+                                if "." in compress:
+                                    speak("Task could not be done!")
+                                    print(Fore.RED + "\n❌ Task could not be Done!")
+                                else:
+                                    shutil.make_archive(compress, "zip", compress)
+                                    speak("Task done!")
+                                    print(Fore.GREEN + "✅ Task Done!")
+                            
+                            else:
+                                speak(f"Sorry, {command} is not available!")
+                                continue
                         
-                        else:
-                            speak(f"Sorry, {command} is not available!")
-                            continue
+                        except Exception as e:
+                            speak("Path File or Folder ERROR!")
+                            print(Fore.MAGENTA + Style.BRIGHT + "\n[Error]: " + Style.NORMAL + str(e))
 
-                        if input(Fore.BLUE + Style.BRIGHT + "More actions in this Path (y/n)? > " + Style.RESET_ALL).lower() == "y":
+                        if input(Fore.BLUE + Style.BRIGHT + "\nMore actions in this Path (y/n)? > " + Style.RESET_ALL).lower() == "y":
                             continue
                         else:
                             break
@@ -385,7 +392,7 @@ if __name__ == "__main__":
                     speak("Sorry, I can't perform the action as the path you have provided doesn't exit!")
                     print(Fore.RED + "❌ Path doesn't exists!")
                     
-            elif all(aciton in query for aciton in ["exciting", "program"]):
+            elif all(aciton in query for aciton in ["excit", "program"]):
                 speak("Let me show you, the exciting programs, ever created, learnt, or had, by the CODER, of this CODE!!")
                 webbrowser.open("https://www.github.com/abdulmoeezbhatti831")
                 
@@ -425,6 +432,6 @@ if __name__ == "__main__":
             
         except Exception as e:
             speak("It looks like we are facing an ERROR!")
-            print(Fore.MAGENTA + Style.BRIGHT + "\n[Error]: " + Style.NORMAL + e)
+            print(Fore.MAGENTA + Style.BRIGHT + "\n[Error]: " + Style.NORMAL + str(e))
             
         input(Style.DIM + "\nPress any key to continue...\n" + Style.RESET_ALL)
