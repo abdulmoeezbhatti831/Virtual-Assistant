@@ -1,2 +1,3 @@
-# Created a Virtual Assistant with voice recognition and various commands
-- Author: Abdul Moeez Bhatti
+# Virtual Assistant
+Author: Abdul Moeez Bhatti
+- Created a Virtual Assistant with voice recognition and various commands
