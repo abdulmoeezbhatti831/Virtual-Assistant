@@ -147,12 +147,13 @@ if __name__ == "__main__":
                         print(Fore.CYAN + Style.BRIGHT + "\nSay your message... 🎤 ")
                         with sr.Microphone() as source:
                             r.adjust_for_ambient_noise(source)
-                            audio = r.listen(source, phrase_time_limit=2)
+                            audio = r.listen(source)
+                        loading("🔎 Recognizing", 5)
                         user_note = r.recognize_google(audio, language="en-US")
-                        print(Style.BRIGHT + "Your message: " + Style.NORMAL + user_note)
+                        print(Style.BRIGHT + "\nYour message: " + Style.NORMAL + user_note)
                         return user_note
                     elif user == "write":
-                        speak("Type your message. Write 'exit' to stop and get the complete message!")
+                        speak("Type your message. Write 'exit' at the last line to stop and get the complete message!")
                         print(Style.BRIGHT + "Message: ", end="")
                         user_note = []
                         while True:
@@ -174,6 +175,8 @@ if __name__ == "__main__":
                     if not os.path.exists(note):
                         with open(note, "w") as f:
                             f.write(write_note())
+                        speak("Task done!")
+                        print(Fore.GREEN + "✅ Task Done!")
                         break
                     else:
                         speak("Such name already have used try another!")
@@ -217,7 +220,7 @@ if __name__ == "__main__":
                                 if (song.lower() in file.lower() or song.lower().replace(" ", "_") in file.lower()) and file.endswith(".mp3"):
                                     found = True
                                     t.join()
-                                    print(Style.BRIGHT + "\nSong Found: "+ Style.NORMAL + Back.LIGHTBLUE_EX + Fore.WHITE + os.path.join(root, file))
+                                    print(Style.BRIGHT + "\nSong Found: " + Back.LIGHTBLUE_EX + os.path.join(root, file))
                                     os.startfile(os.path.join(root, file))
                                     break
                             if found:
@@ -229,7 +232,7 @@ if __name__ == "__main__":
                         t.join()
                         print(Fore.RED + f"\n❌ {song} Not Found!\n")
                     found = False
-                print(Fore.GREEN + "\n✅ Enjoy!\n")
+                print(Fore.GREEN + "✅ Enjoy!\n")
 
             
             elif all(aciton in query for aciton in ["just", "open", "whatsapp"]):
@@ -255,7 +258,7 @@ if __name__ == "__main__":
                         input()
                         return message
                     elif user == "write":
-                        speak("Type your message. Write 'exit' to stop and get the complete message!")
+                        speak("Type your message. Write 'exit' at the last line to stop and get the complete message!")
                         print(Style.BRIGHT + "Message: ", end="")
                         message = []
                         while True:
@@ -271,8 +274,10 @@ if __name__ == "__main__":
                 receiver = input(Style.BRIGHT + Fore.YELLOW + "Receiver Phone No. or Group ID: " + Style.RESET_ALL)
                 if any(char.lower() in "abcdefghijklmnopqrstuvwxyz" for char in receiver):
                     kit.sendwhatmsg_to_group_instantly(receiver, msg(), tab_close=True)
+                    print(Fore.GREEN + "✅ Task Done!")
                 else:
                     kit.sendwhatmsg_instantly(receiver, msg(), tab_close=True)
+                    print(Fore.GREEN + "✅ Task Done!")
                     
             elif all(aciton in query for aciton in ["send", "mail"]):
                 speak("Make sure your message should well written! And one thing more here you need your email app pass not original password! If don't know search about it!")
@@ -307,6 +312,7 @@ if __name__ == "__main__":
                                 for file in files:
                                     print(Back.LIGHTBLUE_EX + Fore.WHITE + os.path.join(root, file))
                             speak("Task done!")
+                            print(Fore.GREEN + "✅ Task Done!")
                             
                         elif command == "create":
                             speak("This can also create folder in folder! Just give correct info!")
@@ -318,6 +324,7 @@ if __name__ == "__main__":
                             else:
                                 os.mkdir(create)
                             speak("Task done!")
+                            print(Fore.GREEN + "✅ Task Done!")
                                 
                         elif command == "delete":
                             speak("Make sure to give right info or it may delete some important stuff!")
@@ -327,18 +334,21 @@ if __name__ == "__main__":
                             else:
                                 shutil.rmtree(delete)
                             speak("Task done!")
+                            print(Fore.GREEN + "✅ Task Done!")
                                 
                         elif command == "move":
                             speak("Make sure to give right info or it might moved some important stuff!")
                             move = input(Fore.LIGHTCYAN_EX + "Folder or File or if sub-folder (Folder\\sub-folder\\File): " + Style.RESET_ALL)
                             shutil.move(move, input(Fore.LIGHTCYAN_EX + "Destination with full path (C:\\): " + Style.RESET_ALL) + "\\" + move.split("\\")[-1])
                             speak("Task done!")
+                            print(Fore.GREEN + "✅ Task Done!")
                             
                         elif command == "rename":
                             speak("Don't like the current name. It's okay, now rename it!")
                             rename = input(Fore.LIGHTCYAN_EX + "Folder or File or if sub-folder (Folder\\sub-folder\\File): " + Style.RESET_ALL)
                             os.rename(rename, input(Fore.YELLOW + "New name: " + Style.RESET_ALL))
                             speak("Task done!")
+                            print(Fore.GREEN + "✅ Task Done!")
                             
                         elif command == "copy":
                             speak("Just make sure don't you put the copy file into original file path!")
@@ -348,6 +358,7 @@ if __name__ == "__main__":
                             else:
                                 shutil.copytree(copy, input(Fore.LIGHTCYAN_EX + "Destination with full path (C:\\): " + Style.RESET_ALL) + "\\" + copy.split("\\")[-1])
                             speak("Task done!")
+                            print(Fore.GREEN + "✅ Task Done!")
                                 
                         elif command == "compress":
                             speak("That's a good idea to compress the big stuff! Make sure it couldn't be performed on files")
@@ -357,6 +368,7 @@ if __name__ == "__main__":
                             else:
                                 shutil.make_archive(compress, "zip", compress)
                                 speak("Task done!")
+                                print(Fore.GREEN + "✅ Task Done!")
                         
                         else:
                             speak(f"Sorry, {command} is not available!")
@@ -388,6 +400,25 @@ if __name__ == "__main__":
                 
             else:
                 speak("I have mentioned my capabilities. So, please ask the stuff related to it! Thanks...")
+                print("""What can I do for you?
+                → Open Camera
+                → Open Google
+                → Open YouTube
+                → Google Search
+                → YouTube Search
+                → Open Website with URL
+                → Current Date and Time
+                → Wikipedia Search
+                → Play music 
+                → Whatsapp msg
+                → Just Open Whatsapp
+                → Send Email
+                → Chat Bot
+                → CMD Runner
+                → Write a note
+                → Folder or File Control
+                → Some Exciting Programs (Ever I Create, Learn & Have! By the Coder!)
+                → Say 'exit program' to close or stop""")
                 
         except sr.UnknownValueError:
             speak("Hmmmmm, I got you, you didn't say anything!!")
