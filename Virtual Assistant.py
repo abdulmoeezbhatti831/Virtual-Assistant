@@ -67,31 +67,31 @@ def user_command():
 
 
 if __name__ == "__main__":
-    # welcome()
+    welcome()
 
-    # print("""What can I do for you?
-    # → Open Camera
-    # → Open Google
-    # → Open YouTube
-    # → Google Search
-    # → YouTube Search
-    # → Open Website with URL
-    # → Current Date and Time
-    # → Wikipedia Search
-    # → Play music 
-    # → Whatsapp msg
-    # → Just Open Whatsapp
-    # → Send Email
-    # → Chat Bot
-    # → CMD Runner
-    # → Write a note
-    # → Folder or File Control
-    # → Some Exciting Programs (Ever I Create, Learn & Have! By the Coder!)
-    # → Say 'exit program' to close or stop""")
+    print("""What can I do for you?
+    → Open Camera
+    → Open Google
+    → Open YouTube
+    → Google Search
+    → YouTube Search
+    → Open Website with URL
+    → Current Date and Time
+    → Wikipedia Search
+    → Play music 
+    → Whatsapp msg
+    → Just Open Whatsapp
+    → Send Email
+    → Chat Bot
+    → CMD Runner
+    → Write a note
+    → Folder or File Control
+    → Some Exciting Programs (Ever I Create, Learn & Have! By the Coder!)
+    → Say 'exit program' to close or stop""")
 
-    # time.sleep(5)
-    # speak("Press enter, To EXPLORE me further!")
-    # input()
+    time.sleep(5)
+    speak("Press enter, To EXPLORE me further!")
+    input()
         
         
     while True:
