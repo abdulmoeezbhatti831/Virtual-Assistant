@@ -17,8 +17,7 @@ def speak(argu: str):
     global name
     speak = Dispatch("SAPI.SpVoice")
     if name == "friday":
-        voices = speak.GetVoices()
-        speak.Voice = voices[1]
+        speak.Voice = speak.GetVoices()[1]
         speak.Speak(argu)
     else:
         speak.Speak(argu)
@@ -411,12 +410,12 @@ if __name__ == "__main__":
                 webbrowser.open("https://www.github.com/abdulmoeezbhatti831")
                 
             elif all(aciton in query for aciton in ["exit", "program"]):
-                speak("WELL, Thanks for using me as your Virtual Assistant!!")
-                speak("NOW Exiting... In")
+                speak("Thank you for choosing me as your Virtual Assistant! I hope I was able to help you today. Have a wonderful day ahead!")
+                speak("Exiting now. In:")
                 for i in range(3, 0, -1):
                     speak(i)
-                print(Fore.RED + "❌ EXIT!")
-                speak("EXIT")
+                speak("Goodbye!")
+                print(Fore.RED + "❌ Exit!")
                 break
                 
             else:
