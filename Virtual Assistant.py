@@ -14,8 +14,14 @@ import threading
 init(autoreset=True)
 
 def speak(argu: str):
+    global name
     speak = Dispatch("SAPI.SpVoice")
-    speak.Speak(argu)
+    if name == "friday":
+        voices = speak.GetVoices()
+        speak.Voice = voices[1]
+        speak.Speak(argu)
+    else:
+        speak.Speak(argu)
 
 
 def loading(word: str, time_sec: int):
@@ -34,6 +40,10 @@ def loading(word: str, time_sec: int):
 
 
 def welcome():
+    global name
+    name = input(Style.BRIGHT + Fore.BLUE + "Name for your Virtual Assistant (Jarvis / Friday) > " + Style.RESET_ALL).lower()
+    if name == "": name = "Jarvis"
+    
     hour = int(datetime.datetime.now().hour)
     if 4 <= hour < 12:
         speak("Good Morning!")
@@ -42,21 +52,19 @@ def welcome():
     elif 18 <= hour < 22:
         speak("Good Evening!")
     else:
-        speak("It's quite Night! Go to some Sleep! Good Night! And Have SWEET DREAMS!!")
+        speak("It's quite late at night! You should get some rest. Good night and have sweet dreams! Take care!")
         exit(0)
-        
-    name = input(Style.BRIGHT + Fore.BLUE + "Name for your Virtual Assistant\n(Default: AMB) > " + Style.RESET_ALL)
-    if name == "": name = "AMB"
 
-    speak(f"This is {name}, a Virtual Assistant designed for PERFROMING BASIC TASKS!")
-    speak("What can I do for you?")
+    speak(f"Hello! I am {name.title()}, your Virtual Assistant, ready to help you with a variety of tasks.")
+    speak("Just tell me what you need, and I'll do my best to assist you!")
 
 
 def user_command():
+    global name
     r = sr.Recognizer()
     r.pause_threshold = 2
     with sr.Microphone() as source:
-        print(Fore.BLUE + Style.BRIGHT + "\n🎤 Say to your Virtual Assistant...")
+        print(Fore.BLUE + Style.BRIGHT + f"\n🎤 Say to {name.title()}...")
         r.adjust_for_ambient_noise(source)
         audio = r.listen(source)
     loading("🔎 Recognizing your voice", 7)
@@ -67,27 +75,33 @@ def user_command():
 
 
 if __name__ == "__main__":
+    name = "Jarvis"
     welcome()
 
-    print("""What can I do for you?
-    → Open Camera
-    → Open Google
-    → Open YouTube
-    → Google Search
-    → YouTube Search
-    → Open Website with URL
-    → Current Date and Time
-    → Wikipedia Search
-    → Play music (anywhere in your PC)
-    → Whatsapp msg
-    → Just Open Whatsapp
-    → Send Email
-    → Chat Bot
-    → CMD Runner
-    → Write a note
-    → Folder or File Control
-    → Some Exciting Programs (Ever I Create, Learn & Have! By the Coder!)
-    → Say 'exit program' to close or stop""")
+    print(Style.BRIGHT + Fore.CYAN + "\n✨ Here are some things I can do for you:")
+    print(      Fore.YELLOW + """
+    ┌─────────────────────────────────────────────────────────────┐
+    │  📷  Open Camera                                            │
+    │  🌐  Open Google                                            │
+    │  📺  Open YouTube                                           │
+    │  🔎  Google Search                                          │
+    │  🎬  YouTube Search                                         │
+    │  🌍  Open Website with URL                                  │
+    │  📅  Current Date and Time                                  │
+    │  📚  Wikipedia Search                                       │
+    │  🎶  Play music (anywhere in your PC)                       │
+    │  💬  Whatsapp msg                                           │
+    │  🟢  Just Open Whatsapp                                     │
+    │  ✉️  Send Email                                              │
+    │  🤖  Chat Bot                                               │
+    │  💻  CMD Runner                                             │
+    │  📝  Write a note                                           │
+    │  📁  Folder or File Control                                 │
+    │  🚀  Some Exciting Programs (Created & Learnt by the Coder) │
+    │  ❌  Say 'exit program' to close or stop                    │
+    └─────────────────────────────────────────────────────────────┘
+                """)
+    print(Style.RESET_ALL)
 
     time.sleep(5)
     speak("Press enter, To EXPLORE me further!")
@@ -183,8 +197,8 @@ if __name__ == "__main__":
                     
                         
             elif all(aciton in query for aciton in ["play", "music"]):
-                speak("Hahahahahahahahah! Music Time!")
-                speak("Frist Let's Create a songs list do want to play (Type 'exit' to exit)")
+                speak("🎶 It's Music Time! Let's get the party started!")
+                speak("First, let's create a list of songs you want to play. Type 'exit' at the end when you're done.")
                 
                 print(Fore.MAGENTA + "🎵 Create the list: ")
                 songs = []
@@ -236,11 +250,11 @@ if __name__ == "__main__":
 
             
             elif all(aciton in query for aciton in ["just", "open", "whatsapp"]):
-                speak("Make sure Your whatsapp is connected with WEB WHATSAPP!")
+                speak("Just ensure your WhatsApp is connected to WhatsApp Web in your browser. Opening WhatsApp Web for you now!")
                 kit.open_web()
                 
             elif all(aciton in query for aciton in ["whatsapp", "message"]):
-                speak("Oh YES! It's CHIT CHAT TIME!")
+                speak("Oh YES! It's CHIT CHAT TIME! Let's send a WhatsApp message. Make sure your WhatsApp Web is connected.")
                 
                 def msg():
                     speak("Write or speak?")
@@ -291,7 +305,7 @@ if __name__ == "__main__":
                 webbrowser.open("https://www.chatgpt.com")
                 
             elif "control" in query and any(aciton in query for aciton in ["file", "folder"]):
-                speak("Let's Control your PC from here! Tell me what to do?")
+                speak("Ready to manage your files and folders! Let's Control your system!")
                 print(Fore.LIGHTYELLOW_EX + "↪ Create  ↪ Delete  ↪ Move  ↪ Rename  ↪ Copy  ↪ Compress  ↪ List")
                 
                 OG_Path = os.getcwd()
@@ -393,7 +407,7 @@ if __name__ == "__main__":
                     print(Fore.RED + "❌ Path doesn't exists!")
                     
             elif all(aciton in query for aciton in ["excit", "program"]):
-                speak("Let me show you, the exciting programs, ever created, learnt, or had, by the CODER, of this CODE!!")
+                speak("Let me show you, the exciting programs, ever created, learnt, or had, by MY CODER!!")
                 webbrowser.open("https://www.github.com/abdulmoeezbhatti831")
                 
             elif all(aciton in query for aciton in ["exit", "program"]):
@@ -406,26 +420,31 @@ if __name__ == "__main__":
                 break
                 
             else:
-                speak("I have mentioned my capabilities. So, please ask the stuff related to it! Thanks...")
-                print("""What can I do for you?
-                → Open Camera
-                → Open Google
-                → Open YouTube
-                → Google Search
-                → YouTube Search
-                → Open Website with URL
-                → Current Date and Time
-                → Wikipedia Search
-                → Play music (anywhere in your PC)
-                → Whatsapp msg
-                → Just Open Whatsapp
-                → Send Email
-                → Chat Bot
-                → CMD Runner
-                → Write a note
-                → Folder or File Control
-                → Some Exciting Programs (Ever I Create, Learn & Have! By the Coder!)
-                → Say 'exit program' to close or stop""")
+                speak("Sorry, I couldn't recognize your command. Please try again with one of the listed options or rephrase your request.")
+                print(Style.BRIGHT + Fore.CYAN + "\n✨ Here are some things I can do for you:")
+                print(Fore.YELLOW + """
+    ┌─────────────────────────────────────────────────────────────┐
+    │  📷  Open Camera                                            │
+    │  🌐  Open Google                                            │
+    │  📺  Open YouTube                                           │
+    │  🔎  Google Search                                          │
+    │  🎬  YouTube Search                                         │
+    │  🌍  Open Website with URL                                  │
+    │  📅  Current Date and Time                                  │
+    │  📚  Wikipedia Search                                       │
+    │  🎶  Play music (anywhere in your PC)                       │
+    │  💬  Whatsapp msg                                           │
+    │  🟢  Just Open Whatsapp                                     │
+    │  ✉️  Send Email                                              │
+    │  🤖  Chat Bot                                               │
+    │  💻  CMD Runner                                             │
+    │  📝  Write a note                                           │
+    │  📁  Folder or File Control                                 │
+    │  🚀  Some Exciting Programs (Created & Learnt by the Coder) │
+    │  ❌  Say 'exit program' to close or stop                    │
+    └─────────────────────────────────────────────────────────────┘
+                """)
+                print(Style.RESET_ALL)
                 
         except sr.UnknownValueError:
             speak("Hmmmmm, I got you, you didn't say anything!!")
