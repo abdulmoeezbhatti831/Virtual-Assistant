@@ -66,11 +66,11 @@ def user_command():
         print(Fore.BLUE + Style.BRIGHT + f"\n🎤 Say to {name.title()}...")
         r.adjust_for_ambient_noise(source)
         audio = r.listen(source)
-    loading("🔎 Recognizing your voice", 7)
-    user_said = r.recognize_google(audio, language="en-US")
-    print(Style.BRIGHT + "\n🗣️ You Said: " + Style.NORMAL + f"{user_said}\n")
-    time.sleep(2)
-    return user_said
+        loading("🔎 Recognizing your voice", 5)
+        user_said = r.recognize_google(audio, language="en-in")
+        print(Style.BRIGHT + "\n🗣️ You Said: " + Style.NORMAL + f"{user_said}\n")
+        time.sleep(2)
+        return user_said
 
 
 if __name__ == "__main__":
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     │  🎶  Play music (anywhere in your PC)                       │
     │  💬  Whatsapp msg                                           │
     │  🟢  Just Open Whatsapp                                     │
-    │  ✉️  Send Email                                              │
+    │  ✉️   Send Email                                             │
     │  🤖  Chat Bot                                               │
     │  💻  CMD Runner                                             │
     │  📝  Write a note                                           │
@@ -102,7 +102,7 @@ if __name__ == "__main__":
                 """)
     print(Style.RESET_ALL)
 
-    time.sleep(5)
+    loading("⌚ Wait a while", 5)
     speak("Press enter, To EXPLORE me further!")
     input()
         
@@ -162,7 +162,7 @@ if __name__ == "__main__":
                             r.adjust_for_ambient_noise(source)
                             audio = r.listen(source)
                         loading("🔎 Recognizing", 5)
-                        user_note = r.recognize_google(audio, language="en-US")
+                        user_note = r.recognize_google(audio, language="en-in")
                         print(Style.BRIGHT + "\nYour message: " + Style.NORMAL + user_note)
                         return user_note
                     elif user == "write":
@@ -266,7 +266,7 @@ if __name__ == "__main__":
                         with sr.Microphone() as source:
                             r.adjust_for_ambient_noise(source)
                             audio = r.listen(source, phrase_time_limit=2)
-                        message = r.recognize_google(audio, language="en-US")
+                        message = r.recognize_google(audio, language="en-in")
                         print(Style.BRIGHT + "Your message: " + Style.NORMAL + message)
                         input()
                         return message
@@ -434,7 +434,7 @@ if __name__ == "__main__":
     │  🎶  Play music (anywhere in your PC)                       │
     │  💬  Whatsapp msg                                           │
     │  🟢  Just Open Whatsapp                                     │
-    │  ✉️  Send Email                                              │
+    │  ✉️   Send Email                                             │
     │  🤖  Chat Bot                                               │
     │  💻  CMD Runner                                             │
     │  📝  Write a note                                           │
