@@ -78,7 +78,7 @@ if __name__ == "__main__":
     → Open Website with URL
     → Current Date and Time
     → Wikipedia Search
-    → Play music 
+    → Play music (anywhere in your PC)
     → Whatsapp msg
     → Just Open Whatsapp
     → Send Email
@@ -399,8 +399,8 @@ if __name__ == "__main__":
             elif all(aciton in query for aciton in ["exit", "program"]):
                 speak("WELL, Thanks for using me as your Virtual Assistant!!")
                 speak("NOW Exiting... In")
-                for i in range(1, 4):
-                    speak(4-i)
+                for i in range(3, 0, -1):
+                    speak(i)
                 print(Fore.RED + "❌ EXIT!")
                 speak("EXIT")
                 break
@@ -416,7 +416,7 @@ if __name__ == "__main__":
                 → Open Website with URL
                 → Current Date and Time
                 → Wikipedia Search
-                → Play music 
+                → Play music (anywhere in your PC)
                 → Whatsapp msg
                 → Just Open Whatsapp
                 → Send Email
