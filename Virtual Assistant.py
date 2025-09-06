@@ -10,6 +10,7 @@ import time
 import webbrowser
 import wikipedia
 import threading
+import random
 
 init(autoreset=True)
 
@@ -41,7 +42,7 @@ def loading(word: str, time_sec: int):
 def welcome():
     global name
     name = input(Style.BRIGHT + Fore.BLUE + "Name for your Virtual Assistant (Jarvis / Friday) > " + Style.RESET_ALL).lower()
-    if name == "": name = "Jarvis"
+    if name == "" or not any(name == voice for voice in ["jarvis", "friday"]): name = random.choice(["jarvis", "friday"])
     
     hour = int(datetime.datetime.now().hour)
     if 4 <= hour < 12:
@@ -140,8 +141,12 @@ if __name__ == "__main__":
                 print(Fore.LIGHTGREEN_EX + datetime.datetime.now().strftime("Current Date and Time:\n\nDate: %B %d, %Y.\nDay: %A\nTime: %I:%M:%S %p"))
             
             elif all(aciton in query for aciton in ["wikipedia", "search"]):
-                speak("Get information on anything here. Just tell me the TOPIC...")
-                print(wikipedia.summary(input(Style.BRIGHT + Fore.CYAN + "Topic: " + Style.RESET_ALL), sentences=input(Fore.CYAN + "No. of sentences: " + Style.RESET_ALL)))
+                speak("Get information on anything here. Just type the TOPIC...")
+                result = wikipedia.summary(input(Style.BRIGHT + Fore.CYAN + "Topic: " + Style.RESET_ALL), sentences=input(Fore.CYAN + "No. of sentences: " + Style.RESET_ALL))
+                speak("Searched Complete!")
+                print(Fore.GREEN + result)
+                time.sleep(3)
+                speak(result)
                 
             elif all(aciton in query for aciton in ["cmd", "run"]):
                 speak("CMD initiating...")
