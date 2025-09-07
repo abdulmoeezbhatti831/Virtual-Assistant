@@ -457,4 +457,4 @@ if __name__ == "__main__":
             speak("It looks like we are facing an ERROR!")
             print(Fore.MAGENTA + Style.BRIGHT + "\n[Error]: " + Style.NORMAL + str(e))
             
-        input(Style.DIM + "\nPress any key to continue...\n" + Style.RESET_ALL)
+        input(Style.DIM + "\nPress Enter to continue...\n" + Style.RESET_ALL)
