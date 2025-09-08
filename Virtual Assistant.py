@@ -1,5 +1,6 @@
 from win32com.client import Dispatch # pip install pywin32
 from colorama import init, Fore, Style, Back 
+from openai import OpenAI
 import pywhatkit as kit
 import speech_recognition as sr # pip install speechRecognition
 import datetime
@@ -98,7 +99,7 @@ if __name__ == "__main__":
     │  💬  Whatsapp msg                                           │
     │  🟢  Just Open Whatsapp                                     │
     │  ✉️   Send Email                                             │
-    │  🤖  Chat Bot                                               │
+    │  🤖  Simple Chatting (with real-time AI)                    │
     │  💻  CMD Runner                                             │
     │  📝  Write a note                                           │
     │  📁  Folder or File Control                                 │
@@ -108,6 +109,7 @@ if __name__ == "__main__":
                 """)
     print(Style.RESET_ALL)
 
+    # Gap for user to read menu easily then started
     loading("⌚ Wait a while", 5)
     speak("Press Enter, To EXPLORE me further!")
     input()
@@ -334,10 +336,96 @@ if __name__ == "__main__":
                 EMAIL_RECEIVER = input(Fore.CYAN + "Receiver Email ID: " + Style.RESET_ALL)
                 kit.send_mail(EMAIL_ID, EMAIL_PWD, input(Style.BRIGHT + "Subject: " + Style.RESET_ALL), input(Style.BRIGHT + "Message: " + Style.RESET_ALL), EMAIL_RECEIVER)
                     
-            # Chat Bot -> Chat GPT
-            elif all(aciton in query for aciton in ["chat", "bot"]):
-                speak("Okay, go to do some chat with a real-time AI!")
-                webbrowser.open("https://www.chatgpt.com")
+            # Simple Chatting -> Real Time AI chatting
+            elif all(aciton in query for aciton in ["simple", "chat"]):
+                speak("To start chatting, please provide your OpenAI API KEY.")
+                API_KEY = input(Style.BRIGHT + Fore.CYAN + "Enter your OpenAI API KEY: " + Style.RESET_ALL)
+                
+                # Verifying the API KEY
+                try:
+                    client = OpenAI(api_key=API_KEY)
+                    Verify_response = client.responses.create(
+                        model = "gpt-5-mini",
+                        input = "Nothing"
+                    )
+                except Exception as e:
+                    speak("It looks like there's some error with your API KEY!")
+                    print(Fore.MAGENTA + Style.BRIGHT + "\n[Error]: " + Style.NORMAL + str(e))
+                    
+                    input(Style.DIM + "\nPress Enter to continue..." + Style.RESET_ALL) # Gap between user inputs
+                    continue
+                
+                # Function to get response from AI
+                def AI(user_input):
+                    client = OpenAI(api_key=API_KEY)
+                    response = client.responses.create(
+                        model = "gpt-5-mini",
+                        input = user_input
+                    )
+                    return response.output_text
+                
+                # Separate speech function for just chatting with AI
+                def speech(): 
+                    global name
+                    r = sr.Recognizer()
+                    r.pause_threshold = 2
+                    with sr.Microphone() as source:
+                        print(Fore.BLUE + Style.BRIGHT + f"\n🎤 Say to chat with {name.title()}...")
+                        r.adjust_for_ambient_noise(source)
+                        audio = r.listen(source)
+                        loading("🔎 Recognizing your voice", 5)
+                        user_said = r.recognize_google(audio, language="en-in")
+                        return user_said
+                    
+                # Setting the Parameters
+                chat = ""
+                conversation_done = False
+                speak("Start chatting! Say something to Start Chatting. You can say 'exit' to stop chatting.")
+                
+                # Loop to chat continuously
+                while True:
+                    try:
+                        user_input = speech()
+                        chat += f"You: {user_input}"
+                        print(Fore.YELLOW + Style.BRIGHT + "\nYou: " + Style.RESET_ALL + user_input)
+                        
+                        # Handling the chat leaving stiuation
+                        if user_input.lower() == "exit":
+                            speak("Store your conversation as a memory!")
+                            store = input(Fore.BLUE + Style.BRIGHT + "Store chat? (y/n) > " + Style.RESET_ALL).lower()
+                            if store == "y":
+                                speak("That's great to store your chatting as memory!")
+                                while True:
+                                    path = input(Fore.BLUE + Style.BRIGHT + "Path: " + Style.RESET_ALL)
+                                    if os.path.exists(path):
+                                        speak("PATH EXIST!! Access Granted!")
+                                        with open(f"{path}\\Chat - {datetime.datetime.now().strftime("%Y-%m-%d %I.%M.%S %p")}.txt", "w") as f:
+                                            f.write(chat)
+                                        speak("Your Conversation have been saved Successfully!")
+                                        conversation_done = True
+                                        print(Fore.GREEN + Style.BRIGHT + "\n✅ Chat Saved!")
+                                        break
+                                    else:
+                                        speak("Sorry, I can't perform the action as the path you have provided doesn't exit!")
+                                        print(Fore.RED + "❌ Path doesn't exists!")
+                            else:
+                                conversation_done = True
+                                speak("It's good to have a chat with you!")
+                            
+                        # If done conversation then break
+                        if conversation_done:
+                            break
+                        
+                        # Giving + showing + speaking the chat with AI
+                        AI_reply = AI(user_input)
+                        chat += f"\n{name.title()}: {AI_reply}\n"
+                        print(Fore.CYAN + Style.BRIGHT + f"\n{name.title()}: " + Style.RESET_ALL + f"{AI_reply}\n")
+                        speak(AI_reply)
+                    
+                    # Handling "if user said nothing" error
+                    except sr.UnknownValueError:
+                        speak("Sorry, I didn't understand you properly! Please press enter and say again!")
+                        input(Style.DIM + "\nPress Enter to continue..." + Style.RESET_ALL)
                 
             # Controlling Files and Folder in your PC
             elif "control" in query and any(aciton in query for aciton in ["file", "folder"]):
@@ -488,7 +576,7 @@ if __name__ == "__main__":
     │  💬  Whatsapp msg                                           │
     │  🟢  Just Open Whatsapp                                     │
     │  ✉️   Send Email                                             │
-    │  🤖  Chat Bot                                               │
+    │  🤖  Simple Chatting (with real-time AI)                    │
     │  💻  CMD Runner                                             │
     │  📝  Write a note                                           │
     │  📁  Folder or File Control                                 │
@@ -507,5 +595,5 @@ if __name__ == "__main__":
             speak("It looks like we are facing an ERROR!")
             print(Fore.MAGENTA + Style.BRIGHT + "\n[Error]: " + Style.NORMAL + str(e))
             
-        # Gap to next query / for not running continously / if user leaves the program ON
-        input(Style.DIM + "\nPress Enter to continue...\n" + Style.RESET_ALL)
+        # Gap to next query / for not running continuously / if user leaves the program ON
+        input(Style.DIM + "\nPress Enter to continue..." + Style.RESET_ALL)
