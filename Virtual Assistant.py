@@ -386,7 +386,7 @@ if __name__ == "__main__":
                 while True:
                     try:
                         user_input = speech()
-                        chat += f"You: {user_input}"
+                        chat += f"\nYou: {user_input}\n"
                         print(Fore.YELLOW + Style.BRIGHT + "\nYou: " + Style.RESET_ALL + user_input)
                         
                         # Handling the chat leaving stiuation
@@ -417,7 +417,7 @@ if __name__ == "__main__":
                             break
                         
                         # Giving + showing + speaking the chat with AI
-                        AI_reply = AI(user_input)
+                        AI_reply = AI(chat)
                         chat += f"\n{name.title()}: {AI_reply}\n"
                         print(Fore.CYAN + Style.BRIGHT + f"\n{name.title()}: " + Style.RESET_ALL + f"{AI_reply}\n")
                         speak(AI_reply)
