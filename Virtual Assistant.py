@@ -224,7 +224,7 @@ if __name__ == "__main__":
                     
             # Play Music (.mp3) anywhere in your PC
             elif all(aciton in query for aciton in ["play", "music"]):
-                speak("🎶 It's Music Time! Let's get the party started!")
+                speak("It's Music Time! Let's get the party started!")
                 speak("First, let's create a list of songs you want to play. Type 'exit' at the end when you're done.")
                 
                 # Creating the list 
