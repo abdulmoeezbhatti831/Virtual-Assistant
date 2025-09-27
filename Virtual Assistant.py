@@ -378,9 +378,9 @@ if __name__ == "__main__":
                         return user_said
                     
                 # Setting the Parameters
-                chat = ""
+                chat = f"Saved in Memory: 'You're name is {name.title()}! An Ai assistant like created by Tony Stark, THE IRON MAN!!\nThis is a voice-chat program with you!'\n\n"
                 conversation_done = False
-                speak("Start chatting! Say something to Start Chatting. You can say 'exit' to stop chatting.")
+                speak("Start chatting! Say something to Start Chatting. You can say just only 'exit' to stop chatting.")
                 
                 # Loop to chat continuously
                 while True:
