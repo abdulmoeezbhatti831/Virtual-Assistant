@@ -1,7 +1,7 @@
 from win32com.client import Dispatch # pip install pywin32
 from colorama import init, Fore, Style, Back 
 from openai import OpenAI
-import pywhatkit as kit
+import pywhatkit.whats as whats, pywhatkit.mail as mail, pywhatkit.misc as kit
 import speech_recognition as sr # pip install speechRecognition
 import datetime
 import os
@@ -73,7 +73,7 @@ def user_command():
         r.adjust_for_ambient_noise(source)
         audio = r.listen(source)
         loading("🔎 Recognizing your voice", 5)
-        user_said = r.recognize_google(audio, language="en-in")
+        user_said = r.recognize_google(audio, language="en-in")  # type: ignore[attr-defined]
         print(Style.BRIGHT + "\n🗣️ You Said: " + Style.NORMAL + f"{user_said}\n")
         time.sleep(2)
         return user_said
@@ -186,7 +186,7 @@ if __name__ == "__main__":
                             r.adjust_for_ambient_noise(source)
                             audio = r.listen(source)
                         loading("🔎 Recognizing", 5)
-                        user_note = r.recognize_google(audio, language="en-in")
+                        user_note = r.recognize_google(audio, language="en-in") # type: ignore[attr-defined]
                         print(Style.BRIGHT + "\nYour message: " + Style.NORMAL + user_note)
                         return user_note
                     elif user == "write":
@@ -281,7 +281,7 @@ if __name__ == "__main__":
             # Just Open Whatsapp -> Done through web whatsapp
             elif all(aciton in query for aciton in ["just", "open", "whatsapp"]):
                 speak("Just ensure your WhatsApp is connected to WhatsApp Web in your browser. Opening WhatsApp Web for you now!")
-                kit.open_web()
+                whats.open_web()
                 
             # Whatsapp automated messaging -> Make sure to not use it much. As to avoid from spamming which can result suspend account
             elif all(aciton in query for aciton in ["whatsapp", "message"]):
@@ -299,7 +299,7 @@ if __name__ == "__main__":
                         with sr.Microphone() as source:
                             r.adjust_for_ambient_noise(source)
                             audio = r.listen(source, phrase_time_limit=2)
-                        message = r.recognize_google(audio, language="en-in")
+                        message = r.recognize_google(audio, language="en-in") # type: ignore[attr-defined]
                         print(Style.BRIGHT + "Your message: " + Style.NORMAL + message)
                         input()
                         return message
@@ -321,11 +321,11 @@ if __name__ == "__main__":
                 
                 # If receiver is a Group ID in which user is joined and able to send msg
                 if any(char.lower() in "abcdefghijklmnopqrstuvwxyz" for char in receiver):
-                    kit.sendwhatmsg_to_group_instantly(receiver, msg(), tab_close=True)
+                    whats.sendwhatmsg_to_group_instantly(receiver, msg(), tab_close=True)
                     print(Fore.GREEN + "✅ Task Done!")
                 # If receiver is a Phone no.
                 else:
-                    kit.sendwhatmsg_instantly(receiver, msg(), tab_close=True)
+                    whats.sendwhatmsg_instantly(receiver, msg(), tab_close=True)
                     print(Fore.GREEN + "✅ Task Done!")
                     
             # Sending Email
@@ -334,7 +334,7 @@ if __name__ == "__main__":
                 EMAIL_ID = input(Style.BRIGHT + Fore.CYAN + "Your Email ID: " + Style.RESET_ALL)
                 EMAIL_PWD = input(Fore.CYAN + "Your Apps Password: " + Style.RESET_ALL) # Here you need your email account app pass not original password! If don't know search about it!
                 EMAIL_RECEIVER = input(Fore.CYAN + "Receiver Email ID: " + Style.RESET_ALL)
-                kit.send_mail(EMAIL_ID, EMAIL_PWD, input(Style.BRIGHT + "Subject: " + Style.RESET_ALL), input(Style.BRIGHT + "Message: " + Style.RESET_ALL), EMAIL_RECEIVER)
+                mail.send_mail(EMAIL_ID, EMAIL_PWD, input(Style.BRIGHT + "Subject: " + Style.RESET_ALL), input(Style.BRIGHT + "Message: " + Style.RESET_ALL), EMAIL_RECEIVER)
                     
             # Simple Chatting -> Real Time AI chatting
             elif all(aciton in query for aciton in ["simple", "chat"]):
@@ -374,7 +374,7 @@ if __name__ == "__main__":
                         r.adjust_for_ambient_noise(source)
                         audio = r.listen(source)
                         loading("🔎 Recognizing your voice", 5)
-                        user_said = r.recognize_google(audio, language="en-in")
+                        user_said = r.recognize_google(audio, language="en-in") # type: ignore[attr-defined]
                         return user_said
                     
                 # Setting the Parameters
@@ -551,7 +551,7 @@ if __name__ == "__main__":
                 speak("Thank you for choosing me as your Virtual Assistant! I hope I was able to help you today. Have a wonderful day ahead!")
                 speak("Exiting now. In:")
                 for i in range(3, 0, -1):
-                    speak(i)
+                    speak(str(i))
                 speak("Goodbye!")
                 print(Fore.RED + "❌ Exit!")
                 break
